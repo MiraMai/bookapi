@@ -34,8 +34,12 @@
         background-color: #00bcd4;
         color: white;
 
-    }   
-        
+    } 
+    
+    li {
+        font-family: calibri;
+        font-size: 17pt;        
+    }
 </style>
         
 <script>
@@ -54,20 +58,20 @@ let deletebtn = document.getElementById("deletebtn");
 let authorinput = document.getElementById("authorinput");   
 let titleinput = document.getElementById("titleinput");
 //    **********************************************
-let booklist = document.getElementById("booklist"); 
+var booklist = document.getElementById("booklist"); 
 //    **********************************************
 let booknumber = document.getElementById("booknumber");
 let booktitle = document.getElementById("booktitle");   
 let bookauthor = document.getElementById("bookauthor"); 
 //    **********************************************   
-let bookid = document.getElementById("bookid");   
+let bookid = document.getElementById("bookid"); 
+    
+var olList = document.getElementById("olList");    
  
 
   
 //************** view list ********************* 
- viewlistbtn.addEventListener('click', function(){
-    
-    
+let reloadPage = function(){
     let url = "https://www.forverkliga.se/JavaScript/api/crud.php?op=select&key=1WA18";
     
     let req = new XMLHttpRequest();
@@ -75,34 +79,35 @@ let bookid = document.getElementById("bookid");
         req.onreadystatechange = function() {
             if(req.status == 200 && req.readyState == 4) {
                 let json = JSON.parse(req.responseText);
-                 console.log(json);
-                 console.log(req.responseText);
-                console.log(json);
+               
                 if(json.status === 'error'){
-                    console.log('error')
-                 tryAgain.innerHTML="Try again please!!!"
+                    reloadPage();
                 }
-                else {
-                    booklist.innerHTML = json.data[0].id;
-                    tryAgain.innerHTML="Success!!!"
-                    
-                }
-                        
-             //   booklist.innerHTML = json.data;
-            //    console.log(json.status);
-                  
-             
 
+//********************************************************************                
+                else {
+                    let bookArray = json.data;
+                    olList.innerHTML = "";
+                    console.log(bookArray);
+                      for(let i=0; i< bookArray.length; i++){                          
+                            
+                            let li = document.createElement('li');
+                            li.innerHTML = '"' + bookArray[i].title + '"' +", "+ bookArray[i].author + ", ID: " + bookArray[i].id;
+                            olList.appendChild(li);
+                        }
+                      }                 
                     }
-        }
+                  }
+        
                 
 req.send(); 
  
- });
+};
+viewlistbtn.addEventListener('click', reloadPage);
 //  *********** add book *************    
-   
+
     
- addbtn.addEventListener('click', function(){
+ let pushBook = function() {
      
     let titleToPush = titleinput.value;
     let authorToPush = authorinput.value;
@@ -116,9 +121,73 @@ req.send();
         req.onreadystatechange = function() {
             if(req.status == 200 && req.readyState == 4) {
                 let json = JSON.parse(req.responseText);
-                 console.log(json);
-                 console.log(req.responseText);
                 
+                if(json.status === 'error'){
+                    pushBook();
+                }
+             titleToPush.innerHTML = "";
+            authorToPush.innerHTML = "";
+
+                    }
+        }
+                
+req.send(); 
+     
+};
+
+addbtn.addEventListener('click', pushBook);    
+    
+//*************delete book**************************************
+    
+let deleteBook = function() {
+     
+    let idToPush = bookid.value;
+
+     
+     let url = "https://www.forverkliga.se/JavaScript/api/crud.php?op=delete&key=1WA18&id=" + idToPush;
+    
+    
+     let req = new XMLHttpRequest();
+        req.open('post', url);
+        req.onreadystatechange = function() {
+            if(req.status == 200 && req.readyState == 4) {
+                let json = JSON.parse(req.responseText);
+                
+                if(json.status === 'error'){
+                    deleteBook();
+                    
+                }              
+             
+
+                    }
+        }
+                
+req.send(); 
+     
+}
+deletebtn.addEventListener('click', deleteBook);
+    
+    
+//*********************make changes**************************  
+let modifyBook = function() {
+     
+    let booknumberC = booknumber.value;
+    let booktitleC = booktitle.value;
+    let bookauthorC = bookauthor.value;
+
+     
+     let url = "https://www.forverkliga.se/JavaScript/api/crud.php?op=update&key=1WA18&id=" + booknumberC + "&title=" + booktitleC + "&author=" + bookauthorC;
+    
+    
+     let req = new XMLHttpRequest();
+        req.open('post', url);
+        req.onreadystatechange = function() {
+            if(req.status == 200 && req.readyState == 4) {
+                let json = JSON.parse(req.responseText);
+                if(json.status === 'error'){
+                    modifyBook();
+                    
+                }
                 
         //    console.log(json.status);
              
@@ -128,19 +197,14 @@ req.send();
                 
 req.send(); 
      
-});      
-
-/*    
-// ******** när man klickar på add btn ska inehållet från author input pushas till request objektet*********
-addbtn.addEventListener('click', function(){
-    data.author.appendChild.(authorinput.value);    
-    data.title.appendChild.(titleinput.value);
+}
+changebookbtn.addEventListener('click', modifyBook);
+       
     
-});    
-*/    
+    
+    
+}); // Windows load
 
-
-    });
 </script>
     </head>
     
@@ -161,7 +225,7 @@ addbtn.addEventListener('click', function(){
                       <input id="titleinput" type="text" class="form-control" name="titleinput" placeholder="title">
                     </div>
                     <button type="button" class="btn btn-warning" id="addbtn">Add book</button>
-                <div class="alert alert-danger" id="tryAgain"></div>
+<!--                <div class="alert alert-danger" id="tryAgain"></div>-->
                 </form>
 
             </div>
@@ -170,7 +234,7 @@ addbtn.addEventListener('click', function(){
              <div class="jumbotron" id="color2">
                 <h1>View books</h1>
                 <button type="button" class="btn btn-warning" id="viewlistbtn">View my book-list</button>
-                <div class="well well-lg" id= "booklist"><ol></ol></div>
+                 <div class="well well-lg" id= "booklist"><ol id="olList"></ol></div>
 
             </div>
             
@@ -179,7 +243,7 @@ addbtn.addEventListener('click', function(){
                 <h1>Make changes</h1>
                 <form>
                     <div class="input-group">
-                      <input id="booknumber" type="text" class="form-control" name="booknumber" placeholder="Book number ex. 2">
+                      <input id="booknumber" type="text" class="form-control" name="booknumber" placeholder="Book ID">
                     </div>
                     <div class="input-group">
                       <input id="booktitle" type="text" class="form-control" name="booktitle" placeholder="Book title">
