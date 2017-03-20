@@ -135,8 +135,10 @@ viewlistbtn.addEventListener('click', reloadPage);
                 
                 if(json.status === 'error'){
                     pushBook();
-                }
-            
+                }else {
+                    titleinput.value="";
+                    authorinput.value="";
+                }            
                     }
         }
                 
@@ -164,7 +166,8 @@ let deleteBook = function() {
                 
                 if(json.status === 'error'){
                     deleteBook();
-                    
+                }else {
+                    bookid.value="";
                 }              
              
 
@@ -194,7 +197,11 @@ let modifyBook = function() {
             if(req.status == 200 && req.readyState == 4) {
                 let json = JSON.parse(req.responseText);
                 if(json.status === 'error'){
-                    modifyBook();
+                    modifyBook();                    
+                }else {
+                    booknumber.value="";
+                    booktitle.value="";
+                    bookauthor.value="";
                     
                 }
                 
@@ -276,7 +283,7 @@ changebookbtn.addEventListener('click', modifyBook);
     <div id="section2" class="container-fluid">
        <div class="row">
        <div class="col-sm-12">  
-       <h1>View my BooksList</h1>
+       <h1>View my BookList</h1>
        </div>       
        </div>       
        <div class="row">
