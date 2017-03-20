@@ -1,48 +1,59 @@
-<DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <tittle>My book api</title>
-        
-        <!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-
-<!-- Optional theme -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
-
-<!-- Latest compiled and minified JavaScript -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-<style>
-    #color1 {
-        background-color: #009688;
-        color: white;
-    }  
-    
-    #color2 {
-       background-color: #673ab7;
-/*       color: white;*/
-
-    }   
-    
-    #color3 {
-        background-color: #ff9800;
-        color: white;
-
-    }   
-    
-    #color4 {
-        background-color: #00bcd4;
-        color: white;
-
-    } 
-    
-    li {
-        font-family: calibri;
-        font-size: 17pt;        
+<head>
+  <title>My book list</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <style>
+  body {
+      position: relative; 
+  }
+  #section1 {
+      padding-top:120px;
+      padding-bottom: 150px;
+      height:auto;
+      color: #fff; 
+      background-color: #009688;
+      }
+  #section2 {
+      padding-top:120px;
+      padding-bottom: 150px;
+      height:auto;
+      color: #fff; 
+      background-color: #673ab7;
+      }
+  #section3 {
+      padding-top:120px;
+      padding-bottom: 150px;      
+      height:auto;
+      color: #fff; 
+      background-color: #ff9800;
+      }
+  #section4 {
+      padding-top:120px;
+      padding-bottom: 150px;      
+      height:auto;
+      color: #fff; 
+      background-color: #00bcd4;
+      }
+      
+      #booklist  {
+            color: black;
+            font-family: calibri;
+            font-size: 17pt;  
     }
-</style>
-        
-<script>
+      
+      .navbar-brand {
+            font-size: 20pt; 
+      }
+  </style>
+    
+
+    
+    <script>
 window.addEventListener('load', function() {   
     
     
@@ -125,9 +136,7 @@ viewlistbtn.addEventListener('click', reloadPage);
                 if(json.status === 'error'){
                     pushBook();
                 }
-             titleToPush.innerHTML = "";
-            authorToPush.innerHTML = "";
-
+            
                     }
         }
                 
@@ -206,68 +215,124 @@ changebookbtn.addEventListener('click', modifyBook);
 }); // Windows load
 
 </script>
-    </head>
     
-    <body>
-        <div class="container">
-            
-<!--    ************ add books *************-->
-            <div class="jumbotron" id="color1">
-                <h1>Add book</h1>
-                
-                <form>
-                    <div class="input-group">
-                      <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                      <input id="authorinput" type="text" class="form-control" name="authorinput" placeholder="author">
-                    </div>
-                    <div class="input-group">
-                      <span class="input-group-addon"><i class="glyphicon glyphicon-book"></i></span>
-                      <input id="titleinput" type="text" class="form-control" name="titleinput" placeholder="title">
-                    </div>
-                    <button type="button" class="btn btn-warning" id="addbtn">Add book</button>
-<!--                <div class="alert alert-danger" id="tryAgain"></div>-->
-                </form>
+</head>
+<body data-spy="scroll" data-target=".navbar" data-offset="50">
 
-            </div>
-       
-<!--    ************ view books *************-->            
-             <div class="jumbotron" id="color2">
-                <h1>View books</h1>
-                <button type="button" class="btn btn-warning" id="viewlistbtn">View my book-list</button>
-                 <div class="well well-lg" id= "booklist"><ol id="olList"></ol></div>
-
-            </div>
-            
-<!--    ************ make changes *************-->            
-             <div class="jumbotron" id="color3">
-                <h1>Make changes</h1>
-                <form>
-                    <div class="input-group">
-                      <input id="booknumber" type="text" class="form-control" name="booknumber" placeholder="Book ID">
-                    </div>
-                    <div class="input-group">
-                      <input id="booktitle" type="text" class="form-control" name="booktitle" placeholder="Book title">
-                    </div>
-                    
-                    <div class="input-group">
-                      <input id="bookauthor" type="text" class="form-control" name="bookauthor" placeholder="Book author">
-                    </div>
-                     <button type="button" class="btn btn-warning" id="changebookbtn">Change book</button>
-                </form>
-
-            </div>
-            
- <!--    ************ delete book *************-->           
-            <div class="jumbotron" id="color4">
-                <h1>Delete a book</h1>
-                <form>
-                    <div class="input-group">
-                      <input id="bookid" type="text" class="form-control" name="bookid" placeholder="Book id">
-                    </div>
-                    <button type="button" class="btn btn-warning" id  ="deletebtn">Delete book</button>
-
-                </form>
-            </div>
-        
+<!--**************** menu *************************-->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>                     
+          </button>
+          <a class="navbar-brand">My BookList</a>
         </div>
-    </body>
+        <div>
+          <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav">
+              <li><a href="#section1">Add a book to my list</a></li>
+              <li><a href="#section2">View my BookList</a></li>
+              <li><a href="#section3">Make changes</a></li>
+              <li><a href="#section4">Delete a book</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </nav> 
+<!--********** end of menu ****************    -->
+    
+<!--***************** add books ******************-->
+    <div id="section1" class="container-fluid">
+         <div class="row">
+         <div class="col-sm-12">     
+         <h1>Add a book to my list</h1>
+         </div>     
+         </div> 
+         <div class="row">
+         <div class="col-xs-8 col-sm-6 col-md-4 col-lg-3">     
+         <form>
+            <div class="input-group">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                <input id="authorinput" type="text" class="form-control input-lg" name="authorinput" placeholder="author">
+            </div>
+            <div class="input-group">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-book"></i></span>
+                <input id="titleinput" type="text" class="form-control input-lg" name="titleinput" placeholder="title">
+            </div>
+            <button type="button" class="btn btn-warning" id="addbtn">Add book
+             </button>     
+         </form>
+        </div> 
+        <div class="col-xs-4 col-sm-6 col-md-8 col-lg-9"></div>     
+      </div>
+    </div>    
+<!--********* end of add book ***************-->
+
+<!--************  view books ***********-->
+    <div id="section2" class="container-fluid">
+       <div class="row">
+       <div class="col-sm-12">  
+       <h1>View my BooksList</h1>
+       </div>       
+       </div>       
+       <div class="row">
+       <div class="col-xs-8 col-sm-6 col-md-4 col-lg-3">     
+       <button type="button" class="btn btn-warning" id="viewlistbtn">View my book-list</button>
+       <div class="well well-lg" id= "booklist"><ol id="olList"></ol></div>
+       </div>       
+       </div>     
+    </div>
+<!--********* en of view books *************    -->
+    
+<!--************* make changes **********    -->
+     <div id="section3" class="container-fluid">
+        <div class="row">
+        <div class="col-sm-12">     
+        <h1>Make changes</h1>
+        </div>    
+        </div>   
+        <div class="row">
+        <div class="col-xs-8 col-sm-6 col-md-4 col-lg-3">     
+        <form>
+           <div class="input-group">
+              <input id="booknumber" type="text" class="form-control input-lg" name="booknumber" placeholder="Book ID">
+           </div>
+           <div class="input-group">
+              <input id="booktitle" type="text" class="form-control input-lg" name="booktitle" placeholder="Book title">
+           </div>
+           <div class="input-group">
+              <input id="bookauthor" type="text" class="form-control input-lg" name="bookauthor" placeholder="Book author">
+           </div>
+           <button type="button" class="btn btn-warning" id="changebookbtn">Change book</button>
+        </form>
+        </div>    
+        </div>
+     </div>
+<!--*********** end of make changes **********    -->
+    
+<!--********** delete book ******************    -->
+     <div id="section4" class="container-fluid">
+        <div class="row">
+        <div class="col-sm-12">     
+        <h1>Delete a book</h1>
+        </div>    
+        </div> 
+        <div class="row">
+        <div class="col-xs-8 col-sm-6 col-md-4 col-lg-3">     
+        <form>
+            <div class="input-group">
+              <input id="bookid" type="text" class="form-control input-lg" name="bookid" placeholder="Book id">
+            </div>
+            <button type="button" class="btn btn-warning" id  ="deletebtn">Delete book</button>
+        </form>
+        </div>    
+        </div>
+      </div>
+<!--************* end of delete book ************-->
+
+</body>
+</html>
